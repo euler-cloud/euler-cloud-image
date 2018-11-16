@@ -13,17 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eulerframework.cloud.image.util;
+package org.eulerframework.cloud.image.dto;
 
-import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
+public class ImageSavedInfoDTO {
+    private String savedId;
+    private String url;
 
-import java.io.File;
-import java.io.IOException;
+    public String getSavedId() {
+        return savedId;
+    }
 
-public interface ImageCompressCallback {
-    void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest);
+    public void setSavedId(String savedId) {
+        this.savedId = savedId;
+    }
 
-    void failed(IOException e, File src, File dest);
+    public String getUrl() {
+        return url;
+    }
 
-    void clean(File src, File dest);
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

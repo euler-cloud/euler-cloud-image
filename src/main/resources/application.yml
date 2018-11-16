@@ -16,3 +16,6 @@ spring:
 
 euler:
   runtime-path: /var/lib/euler-cloud/image
+  image:
+    thumbMaxSize: 400
+    thumbQuality: 0.618

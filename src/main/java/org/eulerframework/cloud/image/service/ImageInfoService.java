@@ -20,6 +20,8 @@ import org.eulerframework.cloud.image.repository.ImageInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ImageInfoService {
 
@@ -27,6 +29,8 @@ public class ImageInfoService {
     private ImageInfoRepository imageInfoRepository;
 
     public void saveImageInfo(ImageInfo imageInfo) {
+        imageInfo.setUploadedAt(new Date());
+        imageInfo.setUploadedBy("0");
         this.imageInfoRepository.save(imageInfo);
     }
 

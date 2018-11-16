@@ -16,7 +16,7 @@
 package org.eulerframework.cloud.image.util;
 
 import net.coobird.thumbnailator.Thumbnails;
-import org.eulerframework.cloud.image.vo.ImageInfoDTO;
+import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.util.Assert;
 
 import javax.imageio.ImageIO;
@@ -26,7 +26,7 @@ import java.io.IOException;
 
 public class ImageUtils {
 
-    public static ImageInfoDTO compressImage(File src, File dest, int maxSize, double quality) throws IOException {
+    public static ImageCompressInfoDTO compressImage(File src, File dest, int maxSize, double quality) throws IOException {
         Assert.notNull(src, "src file argument must not be null");
         Assert.notNull(dest, "dest file argument must not be null");
         Assert.isTrue(src.exists(), "src file must exists");
@@ -34,12 +34,19 @@ public class ImageUtils {
         Assert.isFalse(dest.exists(), "dest file must not exists");
 
         BufferedImage bufferedImage = ImageIO.read(src);
-        Thumbnails.of(bufferedImage).size(maxSize, maxSize).outputQuality(quality).toFile(dest);
+        Thumbnails.Builder<BufferedImage> bufferedImageBuilder = Thumbnails.of(bufferedImage).size(maxSize, maxSize).outputQuality(quality);
+        ImageCompressInfoDTO imageCompressInfoDTO = new ImageCompressInfoDTO();
+        imageCompressInfoDTO.setHeight(bufferedImage.getHeight());
+        imageCompressInfoDTO.setWidth(bufferedImage.getWidth());
+        imageCompressInfoDTO.setFileSize(src.length());
 
-        ImageInfoDTO imageInfoDTO = new ImageInfoDTO();
-        imageInfoDTO.setHeight(bufferedImage.getHeight());
-        imageInfoDTO.setWidth(bufferedImage.getWidth());
-        imageInfoDTO.setSize(src.length());
-        return imageInfoDTO;
+        BufferedImage bufferedCompressedImage = bufferedImageBuilder.asBufferedImage();
+        imageCompressInfoDTO.setCompressedHeight(bufferedCompressedImage.getHeight());
+        imageCompressInfoDTO.setCompressedWidth(bufferedCompressedImage.getWidth());
+
+        bufferedImageBuilder.toFile(dest);
+        imageCompressInfoDTO.setCompressedFileSize(dest.length());
+
+        return imageCompressInfoDTO;
     }
 }

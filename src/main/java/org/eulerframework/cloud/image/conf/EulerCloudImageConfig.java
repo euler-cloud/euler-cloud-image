@@ -19,19 +19,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "euler")
-public class EulerCloudConfig {
-    private String runtimePath;
+@ConfigurationProperties(prefix = "euler.image")
+public class EulerCloudImageConfig {
     private int thumbMaxSize = 400;
-    private double thumbQuality = 0.7;
-
-    public String getRuntimePath() {
-        return runtimePath;
-    }
-
-    public void setRuntimePath(String runtimePath) {
-        this.runtimePath = runtimePath;
-    }
+    private double thumbQuality = 0.618;
 
     public int getThumbMaxSize() {
         return thumbMaxSize;

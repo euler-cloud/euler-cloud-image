@@ -20,17 +20,25 @@ import org.eulerframework.web.core.base.entity.UUIDEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class ImageInfo implements BaseEntity<ImageInfo, String> {
     @Id
     private String id;
-    private Integer width;
-    private Integer height;
-    private Long size;
-    private String originalFilename;
+    private String filename;
+    private Integer originWidth;
+    private Integer originHeight;
+    private Long originFileSize;
+    private String originSavedId;
     private String originUrl;
+    private Integer thumbWidth;
+    private Integer thumbHeight;
+    private Long thumbFileSize;
+    private String thumbSavedId;
     private String thumbUrl;
+    private Date uploadedAt;
+    private String uploadedBy;
 
     @Override
     public String getId() {
@@ -42,36 +50,44 @@ public class ImageInfo implements BaseEntity<ImageInfo, String> {
         this.id = id;
     }
 
-    public Integer getWidth() {
-        return width;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setWidth(Integer width) {
-        this.width = width;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public Integer getHeight() {
-        return height;
+    public Integer getOriginWidth() {
+        return originWidth;
     }
 
-    public void setHeight(Integer height) {
-        this.height = height;
+    public void setOriginWidth(Integer originWidth) {
+        this.originWidth = originWidth;
     }
 
-    public Long getSize() {
-        return size;
+    public Integer getOriginHeight() {
+        return originHeight;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
+    public void setOriginHeight(Integer originHeight) {
+        this.originHeight = originHeight;
     }
 
-    public String getOriginalFilename() {
-        return originalFilename;
+    public Long getOriginFileSize() {
+        return originFileSize;
     }
 
-    public void setOriginalFilename(String originalFilename) {
-        this.originalFilename = originalFilename;
+    public void setOriginFileSize(Long originFileSize) {
+        this.originFileSize = originFileSize;
+    }
+
+    public String getOriginSavedId() {
+        return originSavedId;
+    }
+
+    public void setOriginSavedId(String originSavedId) {
+        this.originSavedId = originSavedId;
     }
 
     public String getOriginUrl() {
@@ -82,6 +98,38 @@ public class ImageInfo implements BaseEntity<ImageInfo, String> {
         this.originUrl = originUrl;
     }
 
+    public Integer getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public void setThumbWidth(Integer thumbWidth) {
+        this.thumbWidth = thumbWidth;
+    }
+
+    public Integer getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public void setThumbHeight(Integer thumbHeight) {
+        this.thumbHeight = thumbHeight;
+    }
+
+    public Long getThumbFileSize() {
+        return thumbFileSize;
+    }
+
+    public void setThumbFileSize(Long thumbFileSize) {
+        this.thumbFileSize = thumbFileSize;
+    }
+
+    public String getThumbSavedId() {
+        return thumbSavedId;
+    }
+
+    public void setThumbSavedId(String thumbSavedId) {
+        this.thumbSavedId = thumbSavedId;
+    }
+
     public String getThumbUrl() {
         return thumbUrl;
     }
@@ -90,6 +138,21 @@ public class ImageInfo implements BaseEntity<ImageInfo, String> {
         this.thumbUrl = thumbUrl;
     }
 
+    public Date getUploadedAt() {
+        return uploadedAt;
+    }
+
+    public void setUploadedAt(Date uploadedAt) {
+        this.uploadedAt = uploadedAt;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
 
     @Override
     public int compareTo(ImageInfo obj) {

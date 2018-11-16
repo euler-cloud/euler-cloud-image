@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eulerframework.cloud.image.vo;
+package org.eulerframework.cloud.image.dto;
 
-public class ImageInfoDTO {
+public class ImageCompressInfoDTO {
     private int width;
     private int height;
-    private long size;
+    private long fileSize;
+    private int compressedWidth;
+    private int compressedHeight;
+    private long compressedFileSize;
 
     public int getWidth() {
         return width;
@@ -36,11 +39,35 @@ public class ImageInfoDTO {
         this.height = height;
     }
 
-    public long getSize() {
-        return size;
+    public long getFileSize() {
+        return fileSize;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public int getCompressedWidth() {
+        return compressedWidth;
+    }
+
+    public void setCompressedWidth(int compressedWidth) {
+        this.compressedWidth = compressedWidth;
+    }
+
+    public int getCompressedHeight() {
+        return compressedHeight;
+    }
+
+    public void setCompressedHeight(int compressedHeight) {
+        this.compressedHeight = compressedHeight;
+    }
+
+    public long getCompressedFileSize() {
+        return compressedFileSize;
+    }
+
+    public void setCompressedFileSize(long compressedFileSize) {
+        this.compressedFileSize = compressedFileSize;
     }
 }

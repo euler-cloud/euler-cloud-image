@@ -15,7 +15,7 @@
  */
 package org.eulerframework.cloud.image.util;
 
-import org.eulerframework.cloud.image.vo.ImageInfoDTO;
+import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.base.log.LogSupport;
 
 import java.io.File;
@@ -39,8 +39,8 @@ public class ImageCompressRunnable extends LogSupport implements Runnable {
     @Override
     public void run() {
         try {
-            ImageInfoDTO imageInfoDTO = ImageUtils.compressImage(this.src, this.dest, this.maxSize, this.quality);
-            this.imageCompressCallback.success(imageInfoDTO, this.src, this.dest);
+            ImageCompressInfoDTO imageCompressInfoDTO = ImageUtils.compressImage(this.src, this.dest, this.maxSize, this.quality);
+            this.imageCompressCallback.success(imageCompressInfoDTO, this.src, this.dest);
         } catch (IOException e) {
             this.logger.error(e.getMessage(), e);
             this.imageCompressCallback.failed(e, this.src, this.dest);

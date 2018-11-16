@@ -15,14 +15,15 @@
  */
 package org.eulerframework.cloud.image.api;
 
-import org.eulerframework.cloud.image.conf.EulerCloudConfig;
+import org.eulerframework.cloud.config.EulerCloudConfig;
+import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
+import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
 import org.eulerframework.cloud.image.entity.ImageInfo;
 import org.eulerframework.cloud.image.service.ImageInfoService;
 import org.eulerframework.cloud.image.service.ImageSaveService;
 import org.eulerframework.cloud.image.util.ImageCompressCallback;
 import org.eulerframework.cloud.image.util.ImageCompressRunnable;
-import org.eulerframework.cloud.image.vo.ImageInfoDTO;
-import org.eulerframework.cloud.image.vo.ImageVO;
+import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.util.io.file.SimpleFileIOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,6 +50,9 @@ public class ImageUploadApi {
     private EulerCloudConfig eulerCloudConfig;
 
     @Autowired
+    private EulerCloudImageConfig eulerCloudImageConfig;
+
+    @Autowired
     private ImageSaveService imageSaveService;
 
     @Autowired
@@ -71,9 +75,9 @@ public class ImageUploadApi {
     @PostMapping
     public String uploadImage(@RequestParam MultipartFile image) throws IOException {
         String workId = UUID.randomUUID().toString();
-        String runtimePath = this.eulerCloudConfig.getRuntimePath();
+        String tmpPath = this.eulerCloudConfig.getTmpPath();
 
-        String workspacePath = runtimePath + "/" + workId;
+        String workspacePath = tmpPath + "/" + workId;
         File workspace = new File(workspacePath);
 
         String originalFilename = image.getOriginalFilename();
@@ -91,21 +95,33 @@ public class ImageUploadApi {
         ImageCompressRunnable imageCompressRunnable = new ImageCompressRunnable(
                 src,
                 thumb,
-                ImageUploadApi.this.eulerCloudConfig.getThumbMaxSize(),
-                ImageUploadApi.this.eulerCloudConfig.getThumbQuality(),
+                ImageUploadApi.this.eulerCloudImageConfig.getThumbMaxSize(),
+                ImageUploadApi.this.eulerCloudImageConfig.getThumbQuality(),
                 new ImageCompressCallback() {
                     @Override
-                    public void success(ImageInfoDTO imageInfoDTO, File src, File dest) {
-                        String originUrl = ImageUploadApi.this.imageSaveService.saveFile(src);
-                        String thumbUrl = ImageUploadApi.this.imageSaveService.saveFile(dest);
+                    public void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest) {
+                        ImageSavedInfoDTO originImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(src);
+                        ImageSavedInfoDTO thumbImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(dest);
+
                         ImageInfo imageInfo = new ImageInfo();
+
                         imageInfo.setId(workId);
-                        imageInfo.setHeight(imageInfoDTO.getHeight());
-                        imageInfo.setWidth(imageInfoDTO.getWidth());
-                        imageInfo.setSize(imageInfoDTO.getSize());
-                        imageInfo.setOriginalFilename(originalFilename);
-                        imageInfo.setOriginUrl(originUrl);
-                        imageInfo.setThumbUrl(thumbUrl);
+                        imageInfo.setFilename(originalFilename);
+
+                        imageInfo.setOriginHeight(imageCompressInfoDTO.getHeight());
+                        imageInfo.setOriginWidth(imageCompressInfoDTO.getWidth());
+                        imageInfo.setOriginFileSize(imageCompressInfoDTO.getFileSize());
+
+                        imageInfo.setThumbHeight(imageCompressInfoDTO.getCompressedHeight());
+                        imageInfo.setThumbWidth(imageCompressInfoDTO.getCompressedWidth());
+                        imageInfo.setThumbFileSize(imageCompressInfoDTO.getCompressedFileSize());
+
+                        imageInfo.setOriginSavedId(originImageSavedInfoDTO.getSavedId());
+                        imageInfo.setOriginUrl(originImageSavedInfoDTO.getUrl());
+
+                        imageInfo.setThumbSavedId(thumbImageSavedInfoDTO.getSavedId());
+                        imageInfo.setThumbUrl(thumbImageSavedInfoDTO.getUrl());
+
                         ImageUploadApi.this.imageInfoService.saveImageInfo(imageInfo);
                     }
 

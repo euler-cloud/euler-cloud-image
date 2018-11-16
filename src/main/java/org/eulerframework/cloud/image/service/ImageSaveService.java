@@ -15,13 +15,18 @@
  */
 package org.eulerframework.cloud.image.service;
 
+import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.UUID;
 
 @Service
 public class ImageSaveService {
-    public String saveFile(File src) {
-        return "http://example.com/file/xxx";
+    public ImageSavedInfoDTO saveFile(File src) {
+        ImageSavedInfoDTO imageSavedInfoDTO = new ImageSavedInfoDTO();
+        imageSavedInfoDTO.setSavedId(UUID.randomUUID().toString());
+        imageSavedInfoDTO.setUrl("http://example.com/file/xxx");
+        return imageSavedInfoDTO;
     }
 }
