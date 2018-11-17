@@ -15,18 +15,39 @@
  */
 package org.eulerframework.cloud.image.service;
 
+import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
+import org.eulerframework.cloud.image.remote.RemoteServices;
+import org.eulerframework.cloud.image.remote.vo.ArchivedFileVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.util.UUID;
 
 @Service
 public class ImageSaveService {
-    public ImageSavedInfoDTO saveFile(File src) {
+
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
+    private EulerCloudImageConfig eulerCloudImageConfig;
+
+    public ImageSavedInfoDTO saveFile(File file) {
+        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+        param.add("file", new FileSystemResource(file));
+
+        ArchivedFileVO archivedFileVO = this.restTemplate.postForObject(
+                RemoteServices.EULER_CLOUD_FILE + RemoteServices.EULER_CLOUD_FILE_ARCHIVED_FILE_API,
+                param,
+                ArchivedFileVO.class);
+
         ImageSavedInfoDTO imageSavedInfoDTO = new ImageSavedInfoDTO();
-        imageSavedInfoDTO.setSavedId(UUID.randomUUID().toString());
-        imageSavedInfoDTO.setUrl("http://example.com/file/xxx");
+        imageSavedInfoDTO.setSavedId(archivedFileVO.getId());
+        imageSavedInfoDTO.setUrl(this.eulerCloudImageConfig.getOssUrl() + "/" + archivedFileVO.getId());
         return imageSavedInfoDTO;
     }
 }

@@ -15,14 +15,27 @@
  */
 package org.eulerframework.cloud.image.conf;
 
+import org.eulerframework.common.util.Assert;
+import org.eulerframework.common.util.CommonUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "euler.image")
-public class EulerCloudImageConfig {
+public class EulerCloudImageConfig implements InitializingBean {
+    /**
+     * 缩略图长边像素, 较短的边会等比例压缩
+     */
     private int thumbMaxSize = 400;
-    private double thumbQuality = 0.618;
+    /**
+     * 压缩质量, 1表示无质量损失
+     */
+    private double thumbQuality = 1;
+    /**
+     * 对象存储的URL
+     */
+    private String ossUrl;
 
     public int getThumbMaxSize() {
         return thumbMaxSize;
@@ -38,5 +51,18 @@ public class EulerCloudImageConfig {
 
     public void setThumbQuality(double thumbQuality) {
         this.thumbQuality = thumbQuality;
+    }
+
+    public String getOssUrl() {
+        return ossUrl;
+    }
+
+    public void setOssUrl(String ossUrl) {
+        this.ossUrl = CommonUtils.convertDirToUnixFormat(ossUrl, false);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        Assert.hasText(this.ossUrl, "ossUrl must be set.");
     }
 }

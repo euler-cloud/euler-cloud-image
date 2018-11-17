@@ -41,7 +41,7 @@ public class ImageCompressRunnable extends LogSupport implements Runnable {
         try {
             ImageCompressInfoDTO imageCompressInfoDTO = ImageUtils.compressImage(this.src, this.dest, this.maxSize, this.quality);
             this.imageCompressCallback.success(imageCompressInfoDTO, this.src, this.dest);
-        } catch (IOException e) {
+        } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
             this.imageCompressCallback.failed(e, this.src, this.dest);
         } finally {

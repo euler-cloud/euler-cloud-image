@@ -17,5 +17,15 @@ spring:
 euler:
   runtime-path: /var/lib/euler-cloud/image
   image:
-    thumbMaxSize: 400
-    thumbQuality: 0.618
+    thumb-max-size: 400
+    thumb-quality: 1
+    oss-url: http://localhost:8081/archived
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true

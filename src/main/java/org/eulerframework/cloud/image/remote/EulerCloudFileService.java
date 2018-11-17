@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eulerframework.cloud.image.util;
+package org.eulerframework.cloud.image.remote;
 
-import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
+//@FeignClient("euler-cloud-file")
+public interface EulerCloudFileService {
 
-import java.io.File;
-
-public interface ImageCompressCallback {
-    void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest);
-
-    void failed(Exception e, File src, File dest);
-
-    void clean(File src, File dest);
 }

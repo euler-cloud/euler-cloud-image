@@ -13,16 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eulerframework.cloud.image.util;
+package org.eulerframework.cloud.image.remote;
 
-import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
-
-import java.io.File;
-
-public interface ImageCompressCallback {
-    void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest);
-
-    void failed(Exception e, File src, File dest);
-
-    void clean(File src, File dest);
+public class RemoteServices {
+    public final static String EULER_CLOUD_FILE = "http://euler-cloud-file";
+    public final static String EULER_CLOUD_FILE_ARCHIVED_FILE_API = "/archived";
 }

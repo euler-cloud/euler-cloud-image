@@ -126,7 +126,7 @@ public class ImageUploadApi {
                     }
 
                     @Override
-                    public void failed(IOException e, File src, File dest) {}
+                    public void failed(Exception e, File src, File dest) {}
 
                     @Override
                     public void clean(File src, File dest) {
