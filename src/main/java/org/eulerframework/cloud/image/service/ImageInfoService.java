@@ -28,9 +28,9 @@ public class ImageInfoService {
     @Autowired
     private ImageInfoRepository imageInfoRepository;
 
-    public void saveImageInfo(ImageInfo imageInfo) {
+    public void saveImageInfo(String userId, ImageInfo imageInfo) {
         imageInfo.setUploadedAt(new Date());
-        imageInfo.setUploadedBy("0");
+        imageInfo.setUploadedBy(userId);
         this.imageInfoRepository.save(imageInfo);
     }
 

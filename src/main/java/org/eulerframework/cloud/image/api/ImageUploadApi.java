@@ -25,6 +25,7 @@ import org.eulerframework.cloud.image.util.ImageCompressCallback;
 import org.eulerframework.cloud.image.util.ImageCompressRunnable;
 import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.util.io.file.SimpleFileIOUtils;
+import org.eulerframework.web.core.base.controller.ApiSupportWebController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ import java.util.concurrent.Executors;
 @RestController
 @CrossOrigin
 @RequestMapping("image")
-public class ImageUploadApi {
+public class ImageUploadApi extends ApiSupportWebController {
 
     @Autowired
     private EulerCloudConfig eulerCloudConfig;
@@ -74,6 +75,7 @@ public class ImageUploadApi {
      */
     @PostMapping
     public String uploadImage(@RequestParam MultipartFile image) throws IOException {
+        String currentUserId = this.getRequest().getHeader("Euler-Cloud-Current-User-Id");
         String workId = UUID.randomUUID().toString();
         String tmpPath = this.eulerCloudConfig.getTmpPath();
 
@@ -122,7 +124,7 @@ public class ImageUploadApi {
                         imageInfo.setThumbSavedId(thumbImageSavedInfoDTO.getSavedId());
                         imageInfo.setThumbUrl(thumbImageSavedInfoDTO.getUrl());
 
-                        ImageUploadApi.this.imageInfoService.saveImageInfo(imageInfo);
+                        ImageUploadApi.this.imageInfoService.saveImageInfo(currentUserId, imageInfo);
                     }
 
                     @Override

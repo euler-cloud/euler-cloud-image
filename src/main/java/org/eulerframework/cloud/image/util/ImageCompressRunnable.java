@@ -19,7 +19,6 @@ import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.base.log.LogSupport;
 
 import java.io.File;
-import java.io.IOException;
 
 public class ImageCompressRunnable extends LogSupport implements Runnable {
     private File src;
