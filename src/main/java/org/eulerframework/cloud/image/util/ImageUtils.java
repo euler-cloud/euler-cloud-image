@@ -15,21 +15,13 @@
  */
 package org.eulerframework.cloud.image.util;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.coobird.thumbnailator.Thumbnails;
 import org.eulerframework.cloud.image.dto.ImageCompressInfoDTO;
 import org.eulerframework.common.util.Assert;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ImageUtils {
