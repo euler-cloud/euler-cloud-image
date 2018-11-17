@@ -15,6 +15,7 @@
  */
 package org.eulerframework.cloud.image.api;
 
+import org.eulerframework.cloud.EulerCloudUserContext;
 import org.eulerframework.cloud.config.EulerCloudConfig;
 import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
@@ -75,7 +76,7 @@ public class ImageUploadApi extends ApiSupportWebController {
      */
     @PostMapping
     public String uploadImage(@RequestParam MultipartFile image) throws IOException {
-        String currentUserId = this.getRequest().getHeader("Euler-Cloud-Current-User-Id");
+        String currentUserId = EulerCloudUserContext.getCurrentUserId();
         String workId = UUID.randomUUID().toString();
         String tmpPath = this.eulerCloudConfig.getTmpPath();
 
