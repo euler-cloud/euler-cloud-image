@@ -19,8 +19,11 @@ import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
 import org.eulerframework.cloud.image.remote.RemoteServices;
 import org.eulerframework.cloud.image.remote.vo.ArchivedFileVO;
+import org.eulerframework.cloud.security.filter.AuthenticationZuulFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -36,13 +39,20 @@ public class ImageSaveService {
     @Autowired
     private EulerCloudImageConfig eulerCloudImageConfig;
 
-    public ImageSavedInfoDTO saveFile(File file) {
+    public ImageSavedInfoDTO saveFile(String userId, File file) {
+
         MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
         param.add("file", new FileSystemResource(file));
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        httpHeaders.add(AuthenticationZuulFilter.EULER_CURRENT_USER_ID_HEADER, userId);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(param, httpHeaders);
+
         ArchivedFileVO archivedFileVO = this.restTemplate.postForObject(
                 RemoteServices.EULER_CLOUD_FILE + RemoteServices.EULER_CLOUD_FILE_ARCHIVED_FILE_API,
-                param,
+                requestEntity,
                 ArchivedFileVO.class);
 
         ImageSavedInfoDTO imageSavedInfoDTO = new ImageSavedInfoDTO();

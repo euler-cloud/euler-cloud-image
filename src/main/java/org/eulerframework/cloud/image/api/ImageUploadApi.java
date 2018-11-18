@@ -103,8 +103,8 @@ public class ImageUploadApi extends ApiSupportWebController {
                 new ImageCompressCallback() {
                     @Override
                     public void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest) {
-                        ImageSavedInfoDTO originImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(src);
-                        ImageSavedInfoDTO thumbImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(dest);
+                        ImageSavedInfoDTO originImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(currentUserId, src);
+                        ImageSavedInfoDTO thumbImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(currentUserId, dest);
 
                         ImageInfo imageInfo = new ImageInfo();
 
