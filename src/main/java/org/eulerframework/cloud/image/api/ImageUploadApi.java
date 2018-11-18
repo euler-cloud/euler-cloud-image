@@ -15,7 +15,7 @@
  */
 package org.eulerframework.cloud.image.api;
 
-import org.eulerframework.cloud.EulerCloudUserContext;
+import org.eulerframework.cloud.security.EulerCloudUserContext;
 import org.eulerframework.cloud.config.EulerCloudConfig;
 import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
