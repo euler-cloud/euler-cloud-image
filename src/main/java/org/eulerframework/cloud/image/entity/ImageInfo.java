@@ -15,15 +15,14 @@
  */
 package org.eulerframework.cloud.image.entity;
 
-import org.eulerframework.web.core.base.entity.BaseEntity;
-import org.eulerframework.web.core.base.entity.UUIDEntity;
+import org.eulerframework.web.core.base.entity.NonIDEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class ImageInfo implements BaseEntity<ImageInfo, String> {
+public class ImageInfo extends NonIDEntity<ImageInfo, String> {
     @Id
     private String id;
     private String filename;
@@ -172,30 +171,5 @@ public class ImageInfo implements BaseEntity<ImageInfo, String> {
             return -1;
 
         return this.getId().compareTo(obj.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((this.getId() == null) ? 0 : this.getId().hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        UUIDEntity<?> other = (UUIDEntity<?>) obj;
-        if (this.getId() == null) {
-            if (other.getId() != null)
-                return false;
-        } else if (!this.getId().equals(other.getId()))
-            return false;
-        return true;
     }
 }
