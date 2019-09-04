@@ -15,8 +15,8 @@
  */
 package org.eulerframework.cloud.image.api;
 
+import org.eulerframework.boot.autoconfigure.web.EulerApplicationProperties;
 import org.eulerframework.cloud.security.EulerCloudUserContext;
-import org.eulerframework.cloud.config.EulerCloudConfig;
 import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
 import org.eulerframework.cloud.image.entity.ImageInfo;
@@ -49,7 +49,7 @@ import java.util.concurrent.Executors;
 public class ImageUploadApi extends ApiSupportWebController {
 
     @Autowired
-    private EulerCloudConfig eulerCloudConfig;
+    private EulerApplicationProperties eulerApplicationProperties;
 
     @Autowired
     private EulerCloudImageConfig eulerCloudImageConfig;
@@ -78,7 +78,7 @@ public class ImageUploadApi extends ApiSupportWebController {
     public String uploadImage(@RequestParam MultipartFile image) throws IOException {
         String currentUserId = EulerCloudUserContext.getCurrentUserId();
         String workId = UUID.randomUUID().toString();
-        String tmpPath = this.eulerCloudConfig.getTmpPath();
+        String tmpPath = this.eulerApplicationProperties.getTmpPath();
 
         String workspacePath = tmpPath + "/" + workId;
         File workspace = new File(workspacePath);
