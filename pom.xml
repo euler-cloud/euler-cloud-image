@@ -35,8 +35,8 @@
             </dependency>
             <dependency>
                 <groupId>org.eulerframework.boot</groupId>
-                <artifactId>euler-web-dependencies</artifactId>
-                <version>1.0.0.M4-SNAPSHOT</version>
+                <artifactId>euler-boot-dependencies</artifactId>
+                <version>1.0.0.M1-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>org.eulerframework.boot</groupId>
-            <artifactId>euler-web-starter</artifactId>
+            <artifactId>spring-boot-starter-euler-web</artifactId>
         </dependency>
 
         <dependency>
