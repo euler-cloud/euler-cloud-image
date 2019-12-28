@@ -29,7 +29,7 @@ public class EulerCloudImageApplication {
 //    }
 
     @Bean
-    public ImageFileStorage imageFileStorage(
+    public LocalImageFileStorage imageFileStorage(
             DataSource dataSource,
             EulerCloudLocalImageFileStorageProperties eulerCloudLocalImageFileStorageProperties) {
         return new LocalImageFileStorage(
