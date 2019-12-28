@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @RestController
 @CrossOrigin
-@RequestMapping("image/local")
+@RequestMapping("archived")
 public class LocalImageFileStorageApi extends ApiSupportWebController {
 
     @Autowired(required = false)
@@ -33,8 +33,16 @@ public class LocalImageFileStorageApi extends ApiSupportWebController {
     @Autowired
     private EulerCloudLocalImageFileStorageProperties eulerCloudLocalImageFileStorageProperties;
 
+    private final static String LOCAL_IMAGE_STORAGE_DISABLED = "Local image storage is inactive";
+
     @GetMapping("{localImageFileId}")
     public void downloadLocalImageFile(@PathVariable String localImageFileId) throws LocalImageFileNotFoundException, IOException {
+        if(this.localImageFileStorage == null) {
+            this.getResponse().setStatus(404);
+            this.getResponse().getOutputStream().print(LOCAL_IMAGE_STORAGE_DISABLED);
+            return;
+        }
+
         String extensions = FileUtils.extractFileExtension(localImageFileId);
         localImageFileId = FileUtils.extractFileNameWithoutExtension(localImageFileId);
         LocalImageFile localImageFile = this.localImageFileStorage.loadLocalImageFile(localImageFileId, extensions);

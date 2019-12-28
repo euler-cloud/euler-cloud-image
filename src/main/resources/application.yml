@@ -23,9 +23,6 @@ euler:
     thumb-max-size: 400
     thumb-quality: 1
     oss-url: none
-  cloud:
-    local-image-file-storage:
-      image-download-url: http://localhost:8080/image/local
 
 eureka:
   client:

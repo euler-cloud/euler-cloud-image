@@ -19,7 +19,7 @@ public class EulerCloudLocalImageFileStorageProperties implements InitializingBe
     private EulerApplicationProperties eulerApplicationProperties;
 
     private String localStoragePath;
-    private String imageDownloadUrl;
+    private String imageDownloadUrl = "http://localhost:8080/archived";
 
     public String getLocalStoragePath() {
         return localStoragePath;
@@ -39,7 +39,6 @@ public class EulerCloudLocalImageFileStorageProperties implements InitializingBe
 
     @Override
     public void afterPropertiesSet() throws FileSystemException {
-        Assert.hasText(this.imageDownloadUrl, "imageDownloadUrl must be set.");
         this.localStoragePath = ConfigUtils.handleApplicationPath(
                 this.localStoragePath,
                 () -> this.eulerApplicationProperties.getRuntimePath() + "/file/image",
