@@ -31,7 +31,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 
-@Service
 public class ImageSaveService {
 
     @Autowired

@@ -1,14 +1,29 @@
-FROM cfrost/java:8u171-jre-oracle
+FROM openjdk:8-jdk
 
-RUN yum update -y && mkdir /app
+ARG app_port=8080
+ARG app_path=/app
+ARG app_conf_path=${app_path}/conf
+ARG app_runtime_path=${app_path}/runtime
+ARG app_log_path=${app_runtime_path}/log
 
-COPY target/euler-cloud-*.jar /app/app.jar
-COPY run.sh /app/run.sh
+RUN mkdir -p ${app_path} ${app_conf_path} ${app_runtime_path} ${app_log_path}
 
-RUN chmod -R 755 /app
+ENV EULER_APP_LOG_PATH=${app_log_path}
+ENV EULER_JAVA_OPTS="-Dlogging.file.path=${app_log_path} \
+-Dserver.port=${app_port} \
+-Dspring.config.additional-location=file:${app_conf_path}/ \
+-Deuler.application.runtime-path=${app_runtime_path}"
 
-EXPOSE 8080
+EXPOSE ${app_port}
 
-WORKDIR /app
+WORKDIR ${app_path}
 
-ENTRYPOINT [ "./run.sh" ]
+VOLUME ${app_runtime_path}
+
+COPY init.sh ${app_path}/init.sh
+
+RUN chmod 755 ${app_path}/init.sh
+
+COPY target/*.jar ${app_path}/app.jar
+
+ENTRYPOINT [ "./init.sh" ]

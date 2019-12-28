@@ -15,7 +15,8 @@
  */
 package org.eulerframework.cloud.image.api;
 
-import org.eulerframework.boot.autoconfigure.web.EulerApplicationProperties;
+import org.eulerframework.boot.autoconfigure.property.EulerApplicationProperties;
+import org.eulerframework.cloud.image.storage.ImageFileStorage;
 import org.eulerframework.cloud.security.EulerCloudUserContext;
 import org.eulerframework.cloud.image.conf.EulerCloudImageConfig;
 import org.eulerframework.cloud.image.dto.ImageSavedInfoDTO;
@@ -55,7 +56,7 @@ public class ImageUploadApi extends ApiSupportWebController {
     private EulerCloudImageConfig eulerCloudImageConfig;
 
     @Autowired
-    private ImageSaveService imageSaveService;
+    private ImageFileStorage imageFileStorage;
 
     @Autowired
     private ImageInfoService imageInfoService;
@@ -78,7 +79,7 @@ public class ImageUploadApi extends ApiSupportWebController {
     public String uploadImage(@RequestParam MultipartFile image) throws IOException {
         String currentUserId = EulerCloudUserContext.getCurrentUserId();
         String workId = UUID.randomUUID().toString();
-        String tmpPath = this.eulerApplicationProperties.getTmpPath();
+        String tmpPath = this.eulerApplicationProperties.getTempPath();
 
         String workspacePath = tmpPath + "/" + workId;
         File workspace = new File(workspacePath);
@@ -103,8 +104,8 @@ public class ImageUploadApi extends ApiSupportWebController {
                 new ImageCompressCallback() {
                     @Override
                     public void success(ImageCompressInfoDTO imageCompressInfoDTO, File src, File dest) {
-                        ImageSavedInfoDTO originImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(currentUserId, src);
-                        ImageSavedInfoDTO thumbImageSavedInfoDTO = ImageUploadApi.this.imageSaveService.saveFile(currentUserId, dest);
+                        ImageSavedInfoDTO originImageSavedInfoDTO = ImageUploadApi.this.imageFileStorage.saveImageFile(currentUserId, src);
+                        ImageSavedInfoDTO thumbImageSavedInfoDTO = ImageUploadApi.this.imageFileStorage.saveImageFile(currentUserId, dest);
 
                         ImageInfo imageInfo = new ImageInfo();
 
