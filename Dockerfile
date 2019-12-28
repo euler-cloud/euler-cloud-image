@@ -22,8 +22,6 @@ VOLUME ${app_runtime_path}
 
 COPY init.sh ${app_path}/init.sh
 
-RUN chmod 755 ${app_path}/init.sh
-
 COPY target/*.jar ${app_path}/app.jar
 
 ENTRYPOINT [ "./init.sh" ]
