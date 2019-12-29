@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public class LocalImageFileStorage implements ImageFileStorage {
 
-
     private final JdbcTemplate jdbcTemplate;
     private final String localStoragePath;
     private final String imageDownloadUrl;
@@ -53,11 +52,11 @@ public class LocalImageFileStorage implements ImageFileStorage {
         Assert.hasText(localImageFileId, "'localImageFileId' is required");
         LocalImageFile localImageFile = this.selectLocalImageFile(localImageFileId);
 
-        if(localImageFile == null) {
+        if (localImageFile == null) {
             throw new LocalImageFileNotFoundException(localImageFileId, extensions);
         }
 
-        if(StringUtils.hasText(extensions) && !extensions.equalsIgnoreCase(localImageFile.getExtension())) {
+        if (StringUtils.hasText(extensions) && !extensions.equalsIgnoreCase(localImageFile.getExtension())) {
             throw new LocalImageFileNotFoundException(localImageFileId, extensions);
         }
 
@@ -110,7 +109,7 @@ public class LocalImageFileStorage implements ImageFileStorage {
                         Types.VARCHAR
                 },
                 rs -> {
-                    if(!rs.next()) {
+                    if (!rs.next()) {
                         return null;
                     }
 
